@@ -14,7 +14,7 @@ export default function useSeries(id: string) {
   const normalizedData = useMemo(() => {
     if (!data?.observations) return [];
 
-    return data.observations.map((el) => ({
+    return data.observations.map((el: any) => ({
       year: el.date.split("-")[0],
       value: el.value,
     }));

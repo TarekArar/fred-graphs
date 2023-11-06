@@ -40,7 +40,7 @@ function SeriesAreaChart({ seriesId }: ISeriesChartProps) {
           domain={[
             0,
             Math.round(
-              Math.max(...data.slice(-20).map((el) => el.value)) * 1.1
+              Math.max(...data.slice(-20).map((el: any) => el.value)) * 1.1
             ),
           ]}
         />

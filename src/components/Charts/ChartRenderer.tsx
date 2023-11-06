@@ -1,7 +1,7 @@
 import { ResponsiveContainer } from "recharts";
 
 interface IChartRendererProps {
-  children: React.ReactNode;
+  children: React.ReactElement;
 }
 
 export default function ChartRenderer({ children }: IChartRendererProps) {

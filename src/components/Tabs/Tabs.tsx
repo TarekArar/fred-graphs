@@ -2,7 +2,7 @@ import { useState } from "react";
 import TabTitle from "./TabTitle";
 
 type Props = {
-  children: React.ReactNode[];
+  children: React.ReactElement[];
 };
 
 const Tabs = ({ children }: Props) => {
