@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 import seriesAPI from "../apis/seriesAPI";
+import { Observation } from "../types";
 
 export default function useSeries(id: string) {
   const { isLoading, data } = useQuery({
@@ -11,11 +12,11 @@ export default function useSeries(id: string) {
     staleTime: Infinity,
   });
 
-  const normalizedData = useMemo(() => {
+  const normalizedData: Observation[] = useMemo(() => {
     if (!data?.observations) return [];
 
     return data.observations.map((el: any) => ({
-      year: el.date.split("-")[0],
+      date: el.date,
       value: el.value,
     }));
   }, [data]);

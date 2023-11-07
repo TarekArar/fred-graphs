@@ -9,51 +9,46 @@ import {
   Rectangle,
 } from "recharts";
 
-import { ISeriesChartProps } from "./types";
-import useSeries from "../../hooks/useSeriesChart";
-import ChartRenderer from "./ChartRenderer";
-
+import { Observation } from "@/types";
 import { memo } from "react";
-import { Spinner } from "../index";
 
-function SeriesAreaChart({ seriesId }: ISeriesChartProps) {
-  const { isLoading, data } = useSeries(seriesId);
+interface IBarChartProps {
+  data: Observation[];
+  sliceValue?: number;
+}
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
-    <ChartRenderer>
-      <BarChart
-        width={500}
-        height={300}
-        data={data.slice(-20)}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" />
-        <YAxis
-          domain={[
-            0,
-            Math.round(
-              Math.max(...data.slice(-20).map((el: any) => el.value)) * 1.1
-            ),
-          ]}
-        />
-        <Tooltip />
-        <Legend />
-        <Bar
-          dataKey="value"
-          fill="#8884d8"
-          activeBar={<Rectangle fill="pink" stroke="blue" />}
-        />
-      </BarChart>
-    </ChartRenderer>
+function CustomBarChart({ data, sliceValue = -20 }: IBarChartProps) {
+  const slicedData = data.slice(sliceValue);
+
+  return (
+    <BarChart
+      width={1200}
+      height={550}
+      data={slicedData}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="date" />
+      <YAxis
+        domain={[
+          0,
+          Math.round(Math.max(...slicedData.map((el: any) => el.value)) * 1.1),
+        ]}
+      />
+      <Tooltip />
+      <Legend />
+      <Bar
+        dataKey="value"
+        fill="#8884d8"
+        activeBar={<Rectangle fill="pink" stroke="blue" />}
+      />
+    </BarChart>
   );
 }
 
-export default memo(SeriesAreaChart);
+export default memo(CustomBarChart);
