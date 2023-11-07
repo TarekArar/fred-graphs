@@ -1,14 +1,11 @@
 import axios from "axios";
 
-const API_BASE_URL = "/api";
-const API_KEY = "c3ee4fd8a1e5fac0d1615273ee4b89ec";
-
 export const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: false,
 
   params: {
-    api_key: API_KEY,
+    api_key: import.meta.env.VITE_API_KEY,
     file_type: "json",
   },
   headers: {
