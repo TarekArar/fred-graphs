@@ -1,9 +1,8 @@
-import useSeries from "@/hooks/useSeriesChart";
+import { lazy, Suspense } from "react";
 
 import { Spinner } from "@/components";
-import { lazy } from "react";
-
-const ChartWrapper = lazy(() => import("./ChartWrapper"));
+import ChartWrapper from "./ChartWrapper";
+import useGetSeriesObservation from "@/hooks/useGetSeriesObservation";
 
 const CHARTS_COMPONENTS = {
   area: lazy(() => import("./AreaChart")),
@@ -16,15 +15,17 @@ interface ISeriesChartProps {
 }
 
 export default function SeriesChart({ seriesId, type }: ISeriesChartProps) {
-  const { isLoading, data } = useSeries(seriesId);
+  const { isLoading, data } = useGetSeriesObservation(seriesId);
 
   const Chart = CHARTS_COMPONENTS[type];
 
   return isLoading ? (
     <Spinner />
   ) : (
-    <ChartWrapper>
-      <Chart data={data} />
-    </ChartWrapper>
+    <Suspense>
+      <ChartWrapper>
+        <Chart data={data} />
+      </ChartWrapper>
+    </Suspense>
   );
 }

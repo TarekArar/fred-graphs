@@ -9,7 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import { Spinner } from "..";
-import useSeries from "@/hooks/useSeriesChart";
+import useGetSeriesObservation from "@/hooks/useGetSeriesObservation";
 
 import { Observation } from "@/types";
 import ChartWrapper from "./ChartWrapper";
@@ -19,8 +19,8 @@ interface DiffLineChartProps {
 }
 
 function DiffLineChart({ seriesIds }: DiffLineChartProps) {
-  const { isLoading: isL1, data: d1 } = useSeries(seriesIds[0]);
-  const { isLoading: isL2, data: d2 } = useSeries(seriesIds[1]);
+  const { isLoading: isL1, data: d1 } = useGetSeriesObservation(seriesIds[0]);
+  const { isLoading: isL2, data: d2 } = useGetSeriesObservation(seriesIds[1]);
 
   const isLoading = isL1 && isL2;
 
@@ -31,7 +31,7 @@ function DiffLineChart({ seriesIds }: DiffLineChartProps) {
 
     d1.forEach((el: Observation) => {
       const secondItem = d2.find((el2: Observation) => el2.date === el.date);
-      if (!secondItem?.value) return;
+      if (!secondItem?.value || Number.isNaN(secondItem.value)) return;
 
       diff.push({
         date: el.date,
@@ -57,8 +57,7 @@ function DiffLineChart({ seriesIds }: DiffLineChartProps) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="value" stroke="#8884d8" dot={null} />
-        {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+        <Line type="monotone" dataKey="value" stroke="#8884d8" dot={<></>} />
       </LineChart>
     </ChartWrapper>
   );

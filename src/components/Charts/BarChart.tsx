@@ -20,6 +20,14 @@ interface IBarChartProps {
 function CustomBarChart({ data, sliceValue = -20 }: IBarChartProps) {
   const slicedData = data.slice(sliceValue);
 
+  const max = Math.round(
+    Math.max(...slicedData.map((el: Observation) => el.value)) * 1.1
+  );
+
+  const min = Math.round(
+    Math.min(...slicedData.map((el: Observation) => el.value))
+  );
+
   return (
     <BarChart
       width={1200}
@@ -34,12 +42,7 @@ function CustomBarChart({ data, sliceValue = -20 }: IBarChartProps) {
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="date" />
-      <YAxis
-        domain={[
-          0,
-          Math.round(Math.max(...slicedData.map((el: any) => el.value)) * 1.1),
-        ]}
-      />
+      <YAxis domain={[Math.min(0, min), max]} />
       <Tooltip />
       <Legend />
       <Bar
