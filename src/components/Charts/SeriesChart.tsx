@@ -15,13 +15,20 @@ interface ISeriesChartProps {
 }
 
 export default function SeriesChart({ seriesId, type }: ISeriesChartProps) {
-  const { isLoading, data } = useGetSeriesObservation(seriesId);
+  const { isError, isLoading, data } = useGetSeriesObservation(seriesId);
 
   const Chart = CHARTS_COMPONENTS[type];
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  if (isError)
+    return (
+      <h3 className="text-red-500 mt-8">
+        Oops An Error Occured, Please Try Again Later
+      </h3>
+    );
+
+  if (isLoading) return <Spinner />;
+
+  return (
     <Suspense>
       <ChartWrapper>
         <Chart data={data} />

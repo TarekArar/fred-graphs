@@ -5,7 +5,7 @@ import seriesAPI from "@/apis/seriesAPI";
 import { Observation } from "@/types";
 
 export default function useGetSeriesObservation(id: string) {
-  const { isLoading, data } = useQuery({
+  const { isError, isLoading, data } = useQuery({
     queryKey: ["Serie", id],
     queryFn: () => seriesAPI.getSeriesObservation(id),
     select: (res) => res.data,
@@ -21,5 +21,5 @@ export default function useGetSeriesObservation(id: string) {
     }));
   }, [data]);
 
-  return { isLoading, data: normalizedData };
+  return { isError, isLoading, data: normalizedData };
 }

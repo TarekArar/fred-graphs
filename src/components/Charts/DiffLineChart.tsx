@@ -19,10 +19,20 @@ interface DiffLineChartProps {
 }
 
 function DiffLineChart({ seriesIds }: DiffLineChartProps) {
-  const { isLoading: isL1, data: d1 } = useGetSeriesObservation(seriesIds[0]);
-  const { isLoading: isL2, data: d2 } = useGetSeriesObservation(seriesIds[1]);
+  const {
+    isError: isErr1,
+    isLoading: isL1,
+    data: d1,
+  } = useGetSeriesObservation(seriesIds[0]);
+  const {
+    isError: isErr2,
+    isLoading: isL2,
+    data: d2,
+  } = useGetSeriesObservation(seriesIds[1]);
 
   const isLoading = isL1 && isL2;
+
+  const isError = isErr1 || isErr2;
 
   const data: Observation[] = useMemo(() => {
     if (!d1 || !d2) return [];
@@ -42,9 +52,16 @@ function DiffLineChart({ seriesIds }: DiffLineChartProps) {
     return diff;
   }, [d1, d2]);
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  if (isError)
+    return (
+      <h3 className="text-red-500 mt-8">
+        Oops An Error Occured, Please Try Again Later
+      </h3>
+    );
+
+  if (isLoading) return <Spinner />;
+
+  return (
     <ChartWrapper>
       <LineChart
         width={1200}
