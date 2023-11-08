@@ -1,12 +1,12 @@
 # Different Graphs using Fred API.
 
-# Steps to run the project locally:
+## Steps to run the project locally:
 
 1. git clone https://github.com/TarekArar/fred-graphs.git
 2. npm i
 3. npm run dev
 
-# Note:
+## Note:
 
 Make sure the env file is there with:
 
