@@ -9,6 +9,8 @@ export default function useGetSeriesObservation(id: string) {
     queryKey: ["Serie", id],
     queryFn: () => seriesAPI.getSeriesObservation(id),
     select: (res) => res.data,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
     staleTime: Infinity, // fetch data once and keep it on cache since the data isnt changing
   });
 
